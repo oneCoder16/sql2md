@@ -4,7 +4,7 @@
 
 # 使用
 1. git clone https://github.com/16sgit/sql2md.git
-2. cd sql2Markdown
+2. cd sql2md
 3. go build
 4. ./sql2md.exe   -sql ./example.sql  -md ./example.md
 
