@@ -1,15 +1,23 @@
 package sql
 
+type Index struct {
+	Name string
+	Val  string
+	Type string
+}
+
 type Field struct {
-	FieldName string `sql:"field_name"`
-	FieldType string `sql:"field_type"`
-	IsNull    bool   `sql:"is_null"`
-	Default   string `sql:"default"`
-	Comment   string `sql:"comment"`
+	Name      string
+	Type      string
+	AllowNull bool
+	Default   string
+	Comment   string
 }
 
 type Table struct {
-	TableName string   `sql:"table"`
-	Fields    []Field  `sql:"fields"`
-	ExtraInfo []string `sql:"extra_info"`
+	TableName string
+	Comment   string
+	Fields    []Field
+	ExtraInfo map[string]string
+	Index     []Index
 }

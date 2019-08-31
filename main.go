@@ -1,21 +1,42 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"io/ioutil"
-	"os"
-	"sql2md/pkg/sql"
+	"sql2md/service"
+	"sql2md/util"
 )
 
-func main() {
-	sql_file := "./tb_channel.sql"
+var (
+	sqlPath      string
+	markdownPath string
+)
 
-	file, err := os.Open(sql_file)
+func init() {
+	flag.StringVar(&sqlPath, "sql", "", "sql file path")
+	flag.StringVar(&markdownPath, "md", "", "markdown file path")
+}
+
+func main() {
+	flag.Parse()
+
+	if sqlPath == "" || markdownPath == "" {
+		panic("sql or md is empty !")
+	}
+
+	content, err := util.GetContentByFile(sqlPath)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
 
-	data, err := ioutil.ReadAll(file)
+	parse := service.ParseService{}
+	transfer := service.TransferService{}
 
+	tables := parse.Str2Sql(content)
+	str := transfer.Sql2md(tables)
+
+	err = ioutil.WriteFile(markdownPath, []byte(str), 0666)
+	if err != nil {
+		panic(err)
+	}
 }

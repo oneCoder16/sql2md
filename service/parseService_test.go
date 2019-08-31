@@ -18,6 +18,8 @@ func Test2Sql(t *testing.T) {
 	data, err := ioutil.ReadAll(file)
 
 	srv := ParseService{}
-	srv.Str2Sql(string(data))
 
+	for _, table := range srv.Str2Sql(data) {
+		t.Logf("%+v\n", table)
+	}
 }
